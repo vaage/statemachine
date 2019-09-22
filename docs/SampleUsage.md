@@ -8,7 +8,7 @@ methods.
 
 Suppose that we are working to implement the following interface:
 
-```
+```python
 class Builder(object):
   def AddAdaptationSet(self):
     return self
@@ -35,10 +35,10 @@ We can define a state machine as below to help us control the use of our
 builder. We will show how it can be used after we show how to construct the
 the state machine.
 
-```
+```python
 sm = StateMachine()
 
-// States
+# States
 s_root = sm.DefineInitialState('root')
 s_add_adaptation_set = sm.DefineState('add adaptation set')
 s_as_audio = sm.DefineState('as audio')
@@ -48,7 +48,7 @@ s_add_segment = sm.DefineState('add segment')
 s_build = sm.DefineState('build')
 
 
-// Transitions
+# Transitions
 sm.DefineTransition(s_root, s_add_adaptation_set)
 sm.DefineTransition(s_root, s_build)
 sm.DefineTransition(s_add_adaptation_set, a_as_audio)
@@ -68,7 +68,7 @@ Now that we have our state machine, we can use it in our builder. To keep the
 sample code as simple as possible, we'll replace redundent and/or irrelevant
 code with "...".
 
-```
+```python
 class Builder(object):
   def __init__(self):
     self.__sm = StateMachine()
