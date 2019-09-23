@@ -5,60 +5,60 @@ from statemachine import StateMachine
 
 class StateMachineTests(unittest.TestCase):
     def test_starts_in_initial_state(self):
-      sm = StateMachine()
-      a = sm.DefineInitialState('a')
-      b = sm.DefineState('b')
+        state_machine = StateMachine()
+        state_a = state_machine.define_initial_state('a')
+        state_b = state_machine.define_state('b')
 
-      sm.DefineTransition(a, b)
+        state_machine.define_transition(state_a, state_b)
 
-      walker = sm.Start()
-      self.assertEquals(a, walker.GetState())
+        walker = state_machine.start()
+        self.assertEqual(state_a, walker.get_state())
 
     def test_accepts_move_with_transition(self):
-      sm = StateMachine()
-      a = sm.DefineInitialState('a')
-      b = sm.DefineState('b')
+        state_machine = StateMachine()
+        state_a = state_machine.define_initial_state('a')
+        state_b = state_machine.define_state('b')
 
-      sm.DefineTransition(a, b)
+        state_machine.define_transition(state_a, state_b)
 
-      walker = sm.Start()
-      self.assertTrue(walker.MoveTo(b))
-      self.assertEquals(b, walker.GetState())
+        walker = state_machine.start()
+        self.assertTrue(walker.move_to(state_b))
+        self.assertEqual(state_b, walker.get_state())
 
     def test_rejects_move_without_transition(self):
-      sm = StateMachine()
-      a = sm.DefineInitialState('a')
-      b = sm.DefineState('b')
-      c = sm.DefineState('c')
+        state_machine = StateMachine()
+        state_a = state_machine.define_initial_state('a')
+        state_b = state_machine.define_state('b')
+        state_c = state_machine.define_state('c')
 
-      sm.DefineTransition(a, b)
-      sm.DefineTransition(b, c)
+        state_machine.define_transition(state_a, state_b)
+        state_machine.define_transition(state_b, state_c)
 
-      walker = sm.Start()
-      self.assertFalse(walker.MoveTo(c))
-      self.assertEquals(a, walker.GetState())
+        walker = state_machine.start()
+        self.assertFalse(walker.move_to(state_c))
+        self.assertEqual(state_a, walker.get_state())
 
     def test_rejects_move_to_self_without_transition(self):
-      sm = StateMachine()
-      a = sm.DefineInitialState('a')
-      b = sm.DefineState('b')
+        state_machine = StateMachine()
+        state_a = state_machine.define_initial_state('a')
+        state_b = state_machine.define_state('b')
 
-      sm.DefineTransition(a, b)
+        state_machine.define_transition(state_a, state_b)
 
-      # There is no transition from a to a, so MoveTo() should return false,
-      # however we should still be in state a after.
-      walker = sm.Start()
-      self.assertFalse(walker.MoveTo(a))
-      self.assertEquals(a, walker.GetState())
+        # There is no transition from a to a, so move_to() should return false,
+        # however we should still be in state a after.
+        walker = state_machine.start()
+        self.assertFalse(walker.move_to(state_a))
+        self.assertEqual(state_a, walker.get_state())
 
     def test_accept_move_to_self_with_transition(self):
-      sm = StateMachine()
-      a = sm.DefineInitialState('a')
-      sm.DefineTransition(a, a)
+        state_machine = StateMachine()
+        state_a = state_machine.define_initial_state('a')
+        state_machine.define_transition(state_a, state_a)
 
-      walker = sm.Start()
-      self.assertTrue(walker.MoveTo(a))
-      self.assertEquals(a, walker.GetState())
+        walker = state_machine.start()
+        self.assertTrue(walker.move_to(state_a))
+        self.assertEqual(state_a, walker.get_state())
 
 
 if __name__ == '__main__':
